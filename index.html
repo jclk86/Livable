@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Livable</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700|Palanquin:400,700|Source+Sans+Pro:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div id="background">
+      <div class="container-top bg-image">
+        <h1 role="banner">Livable</h1>
+
+        <form id="js-form" role="form">
+          <label for="search-county">County Code:</label>
+          <input
+            type="number"
+            name="search-county"
+            placeholder="ex. 087 (Rockland County)"
+            id="js-search-county"
+            aria-valuemin="001"
+            aria-valuemax="840"
+            min="001"
+            max="840"
+            pattern=".{3,3}"
+            title="Three integers only"
+            aria-label="enter county code"
+            role="slider"
+            required
+          />
+          <label for="search-state">State Code:</label>
+          <input
+            type="number"
+            name="search-state"
+            placeholder="ex. 36 (NY)"
+            id="js-search-state"
+            aria-valuemin="02"
+            aria-valuemax="56"
+            min="01"
+            max="56"
+            pattern=".{2,2}"
+            title="Two integers only"
+            aria-label="enter state code"
+            role="slider"
+            required
+          />
+          <input
+            type="submit"
+            value="Find"
+            aria-label="submit button for census data"
+          />
+        </form>
+        <p class="instructions">
+          Don't know your county or state code?
+          <a
+            href="https://www.xtremelocator.com/fips-county-codes/"
+            target="_blank"
+            aria-label="Click here to find state and county codes"
+            >Click here.
+          </a>
+        </p>
+        <p class="instructions">(Ex: Rockland County, New York is 36087)</p>
+      </div>
+      <div id="search-button" class="hidden">
+        <button
+          id="search-again"
+          role="search"
+          aria-label="search again button"
+        >
+          Search Again
+        </button>
+      </div>
+
+      <div
+        id="container-data"
+        role="main"
+        aria-label="all census data"
+        class="hidden"
+      >
+        <!-- <p id="js-error-message" class="error-message"></p> -->
+
+        <div
+          id="results"
+          role="main"
+          aria-label="all census data"
+          class="hidden"
+        >
+          <div class="row" aria-label="population statistics" tabindex="1">
+            <div class="data-head"><h2>Population</h2></div>
+            <div id="population-container"></div>
+          </div>
+
+          <div class="row" aria-label="education statistics" tabindex="3">
+            <div class="data-head"><h2>Education</h2></div>
+            <div id="education-container"></div>
+          </div>
+
+          <div
+            class="row"
+            aria-label="economic-related statistics"
+            tabindex="2"
+          >
+            <div class="data-head"><h2>Labor</h2></div>
+            <div id="labor-container"></div>
+          </div>
+
+          <div class="row" aria-label="housing statistics" tabindex="4">
+            <div class="data-head"><h2>Housing</h2></div>
+            <div id="housing-container-1"></div>
+          </div>
+          <div class="row" aria-label="housing statistics" tabindex="4">
+            <div id="housing-container-2"></div>
+          </div>
+        </div>
+      </div>
+      <div id="arrow-icon">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div
+      id="map"
+      role="application"
+      aria-label="google map with location marked"
+      class="hidden"
+      tabindex="5  "
+    ></div>
+    <div id="container-listing">
+      <section
+        id="results-locations"
+        role="main"
+        aria-label="notable locations list"
+        class="hidden"
+        tabindex="6"
+      >
+        <h3 role="heading">Notable Locations</h3>
+        <ul
+          id="results-locations-list"
+          aria-label="all notable locations nearby"
+        ></ul>
+      </section>
+    </div>
+    <div class="loading"></div>
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFlgvXsaF3aL5dJ_KTmlKG3SbqsL2vrb8&libraries=geometry,places"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
