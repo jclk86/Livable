@@ -21,96 +21,126 @@ function formatInteger(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-async function getData(county, state) {
-  const nativePop = await (await fetch(
+function getData(county, state) {
+  const nativePop = fetch(
     encodeURI(
-      `${usCensus_URL}get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+      `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const foreignPop = await (await fetch(
+  const foreignPop = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0092PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const someCollege = await (await fetch(
+  const someCollege = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0061PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const inCollege = await (await fetch(
+  const inCollege = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0057PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const graduated = await (await fetch(
+  const graduated = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0065PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const unemployed = await (await fetch(
+  const unemployed = fetch(
     encodeURI(
       `${usCensus_URL}get=DP03_0009PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const belowPoverty = await (await fetch(
+  const belowPoverty = fetch(
     encodeURI(
       `${usCensus_URL}get=DP03_0119PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const occupiedHomes = await (await fetch(
+  const occupiedHomes = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0002PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const vacantHomes = await (await fetch(
+  const vacantHomes = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0003PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const homeownerVacancy = await (await fetch(
+  const homeownerVacancy = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0004E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const rentalVacancy = await (await fetch(
+  const rentalVacancy = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0005E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const totalPop = await (await fetch(
+  const totalPop = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0078E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const totalHousing = await (await fetch(
+  const totalHousing = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0006E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const householdInc = await (await fetch(
+  const householdInc = fetch(
     encodeURI(
       `${usCensus_URL}get=DP03_0062E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
-  const rentExpense = await (await fetch(
+  const rentExpense = fetch(
     encodeURI(
       `${usCensus_URL}get=DP04_0134E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  )).json();
+  )
+    .then(res => res.json())
+    .catch(error => console.error("Error:", error));
 
   let promiseArray = [
     nativePop,
@@ -134,72 +164,105 @@ async function getData(county, state) {
     .then(data => {
       $("#population-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Total Population</p></div>
-            <div class="stat-value"><p>${formatInteger(
-              data[11][1][0]
-            )}</p></div>
+            <div class="stat-value"><p>${
+              formatInteger(data[11][1][0])
+                ? `${formatInteger(data[11][1][0])}`
+                : "N/A"
+            }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Native Population</p></div>
-            <div class="stat-value"><p>%${data[0][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[0][1][0] ? `${data[0][1][0]}` : "N/A"
+            }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Foreign Population</p></div>
-            <div class="stat-value"><p>%${data[1][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[1][1][0] ? `${data[1][1][0]}` : "N/A"
+            }</p></div>
         </div>`);
+
       $("#education-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Some College</p></div>
-            <div class="stat-value"><p>%${data[2][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[2][1][0] ? `${data[2][1][0]}` : "N/A"
+            }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">In College</p></div>
-            <div class="stat-value"><p>%${data[3][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[3][1][0] ? `${data[3][1][0]}` : "N/A"
+            }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Grad. College</p></div>
-            <div class="stat-value"><p>%${data[4][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[4][1][0] ? `${data[4][1][0]}` : "N/A"
+            }</p></div>
         </div>`);
+
       $("#labor-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Unemployed</p></div>
-            <div class="stat-value"><p>%${data[5][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[5][1][0] ? `${data[5][1][0]}` : "N/A"
+            }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Below Poverty</p></div>
-            <div class="stat-value"><p>%${data[6][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[6][1][0] ? `${data[6][1][0]}` : "N/A"
+            }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Household Inc.</p></div>
-            <div class="stat-value"><p>$${formatInteger(
-              data[13][1][0]
-            )}</p></div>
+            <div class="stat-value"><p>$${
+              formatInteger(data[13][1][0])
+                ? `${formatInteger(data[13][1][0])}`
+                : "N/A"
+            }</p></div>
         </div>`);
 
       $("#housing-container-1").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Housing Units</p></div>
-            <div class="stat-value"><p>${formatInteger(
-              data[12][1][0]
-            )}</p></div>
+            <div class="stat-value"><p>${
+              formatInteger(data[12][1][0])
+                ? `${formatInteger(data[12][1][0])}`
+                : "N/A"
+            }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Occupied Homes</p></div>
-            <div class="stat-value"><p>%${data[7][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[7][1][0] ? `${data[7][1][0]}` : "N/A"
+            }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Vacant Homes</p></div>
-            <div class="stat-value"><p>%${data[8][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[8][1][0] ? `${data[8][1][0]}` : "N/A"
+            }</p></div>
         </div>`);
+
       $("#housing-container-2").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Home Vacancy</p></div>
-            <div class="stat-value"><p>%${data[9][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[9][1][0] ? `${data[9][1][0]}` : "N/A"
+            }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Rental Vacancy</p></div>
-            <div class="stat-value"><p>%${data[10][1][0]}</p></div>
+            <div class="stat-value"><p>%${
+              data[10][1][0] ? `${data[10][1][0]}` : "N/A"
+            }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Rent Expense</p></div>
-            <div class="stat-value"><p>$${formatInteger(
-              data[14][1][0]
-            )}</p></div>
+            <div class="stat-value"><p>$${
+              formatInteger(data[14][1][0])
+                ? `${formatInteger(data[14][1][0])}`
+                : "N/A"
+            }</p></div>
         </div>`);
     })
     .catch(e => {
@@ -290,7 +353,7 @@ function renderLoadingAnimation() {
     $(
       "#results, .data-head, #search-button, #results-locations, #arrow-icon, #map, #container-data"
     ).removeClass("hidden");
-  }, 8000);
+  }, 4000);
 }
 
 function handleSubmit() {
@@ -302,7 +365,6 @@ function handleSubmit() {
     let county = $("#js-search-county").val();
     let state = $("#js-search-state").val();
     translateLocationCodes(county, state);
-
     getData(county, state);
     $("#js-search-county, #js-search-state").val("");
     $("body").addClass("spinner-3");
