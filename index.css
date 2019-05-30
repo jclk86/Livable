@@ -116,7 +116,8 @@ a:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   max-width: 750px;
-  background: rgba(204, 190, 127, 0.5);
+  background: rgba(60, 66, 68, 0.3);
+  /* background: rgba(204, 190, 127, 0.5); */
   margin: 50px auto;
   border-radius: 5px;
 }
@@ -170,6 +171,29 @@ button:hover {
   cursor: pointer;
 }
 
+.spinner-3:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 80px;
+  width: 80px;
+  margin-top: -30px;
+  margin-left: -30px;
+  border-radius: 50%;
+  border-top: 10px solid rgb(51, 177, 250);
+  border-right: 10px solid transparent;
+  animation: spinner 0.7s linear infinite;
+  z-index: 1;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 #arrow-icon {
   text-align: center;
   width: 100%;
@@ -206,26 +230,6 @@ button:hover {
   font-size: 16px;
 }
 
-/* .loading {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.8) url("ajax-loader.gif") 50% 50% no-repeat;
-}
-
-body.loading .modal {
-  overflow: hidden;
-}
-
-body.loading .modal {
-  display: block;
-} */
-
 @media (min-width: 500px) {
   #population-container,
   #education-container,
@@ -243,7 +247,10 @@ body.loading .modal {
 
 @media (min-width: 768px) {
   #background {
-    height: calc(100vh + 350px);
+    height: calc(100vh + 450px);
+  }
+  #results-locations-list {
+    justify-content: center;
   }
 }
 

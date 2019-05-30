@@ -1,15 +1,14 @@
 "use strict";
-// HI
+
 const googleApiKey = "AIzaSyCFlgvXsaF3aL5dJ_KTmlKG3SbqsL2vrb8";
 const dataDemographKey = "k_0218e326c3fa2590382dd9482ac43f95";
-const useCensusKey = "cd61f085312fedfc60923ae2605d954d1a7e3363";
-const usCensus_URL = "https://api.census.gov/data/2017/acs/acs1/profile";
+const usCensusKey = "cd61f085312fedfc60923ae2605d954d1a7e3363";
+const usCensus_URL = "https://api.census.gov/data/2017/acs/acs1/profile?";
 const dataUSA_URL = "https://datausa.io/api/data?drilldowns=Place&measures=";
 const dataDemograph_URL = "https://api.datademograph.com/v1/";
 const geoCoding_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const googlePlacesSearch_URL =
   "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
-const results = $("#results-list");
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(
@@ -22,137 +21,116 @@ function formatInteger(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function getData(county, state) {
-  Promise.all([
-    // native pop
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // foreign pop
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0092PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // some college
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0061PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // in college
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0057PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), //Graduated College
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0065PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // Unemployed
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP03_0009PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // Below poverty
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP03_0119PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // occupied homes
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0002PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // vacant homes
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0003PE,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // homeowner vacancy
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0004E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // rental vacancy
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0005E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // total population
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0078E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // total housing units
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0006E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // median household income
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP03_0062E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
-    ), // rent expense
-    fetch(
-      encodeURI(
-        `https://api.census.gov/data/2017/acs/acs1/profile?get=DP04_0134E,NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
-      )
+async function getData(county, state) {
+  const nativePop = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
-  ])
-    .then(
-      async ([
-        response1,
-        response2,
-        response3,
-        response4,
-        response5,
-        response6,
-        response7,
-        response8,
-        response9,
-        response10,
-        response11,
-        response12,
-        response13,
-        response14,
-        response15
-      ]) => {
-        const nativePopulation = await response1.json();
-        const foreignPopulation = await response2.json();
-        const someCollege = await response3.json();
-        const inCollege = await response4.json();
-        const graduatedCollege = await response5.json();
-        const unemployed = await response6.json();
-        const belowPoverty = await response7.json();
-        const occupiedHomes = await response8.json();
-        const vacantHomes = await response9.json();
-        const homeownerVacany = await response10.json();
-        const rentalVacany = await response11.json();
-        const totalPopulation = await response12.json();
-        const totalHousingUnits = await response13.json();
-        const householdIncome = await response14.json();
-        const rentExpense = await response15.json();
-        return [
-          nativePopulation,
-          foreignPopulation,
-          someCollege,
-          inCollege,
-          graduatedCollege,
-          unemployed,
-          belowPoverty,
-          occupiedHomes,
-          vacantHomes,
-          homeownerVacany,
-          rentalVacany,
-          totalPopulation,
-          totalHousingUnits,
-          householdIncome,
-          rentExpense
-        ];
-      }
+  )).json();
+
+  const foreignPop = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0092PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
+  )).json();
+
+  const someCollege = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0061PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const inCollege = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0057PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const graduated = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0065PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const unemployed = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP03_0009PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const belowPoverty = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP03_0119PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const occupiedHomes = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0002PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const vacantHomes = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0003PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const homeownerVacancy = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0004E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const rentalVacancy = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0005E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const totalPop = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP02_0078E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const totalHousing = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0006E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const householdInc = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP03_0062E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  const rentExpense = await (await fetch(
+    encodeURI(
+      `${usCensus_URL}get=DP04_0134E,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+    )
+  )).json();
+
+  let promiseArray = [
+    nativePop,
+    foreignPop,
+    someCollege,
+    inCollege,
+    graduated,
+    unemployed,
+    belowPoverty,
+    occupiedHomes,
+    vacantHomes,
+    homeownerVacancy,
+    rentalVacancy,
+    totalPop,
+    totalHousing,
+    householdInc,
+    rentExpense
+  ];
+
+  Promise.all(promiseArray)
     .then(data => {
       $("#population-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Total Population</p></div>
@@ -306,16 +284,13 @@ function renderFormAgain() {
   });
 }
 
-function renderLoadScreen() {
-  let body = $("body");
-  $("form").on("submit", {
-    ajaxStart: function() {
-      body.addClass(".loading");
-    },
-    ajaxStop: function() {
-      body.removeClass(".loading");
-    }
-  });
+function renderLoadingAnimation() {
+  setTimeout(() => {
+    $("body").removeClass("spinner-3");
+    $(
+      "#results, .data-head, #search-button, #results-locations, #arrow-icon, #map, #container-data"
+    ).removeClass("hidden");
+  }, 8000);
 }
 
 function handleSubmit() {
@@ -327,11 +302,11 @@ function handleSubmit() {
     let county = $("#js-search-county").val();
     let state = $("#js-search-state").val();
     translateLocationCodes(county, state);
+
     getData(county, state);
     $("#js-search-county, #js-search-state").val("");
-    $(
-      "#results, .data-head, #search-button, #results-locations, #arrow-icon, #map, #container-data"
-    ).removeClass("hidden");
+    $("body").addClass("spinner-3");
+    renderLoadingAnimation();
     $("#js-form, .instructions").addClass("hidden");
   });
 }
@@ -340,22 +315,3 @@ $(function() {
   handleSubmit();
   renderFormAgain();
 });
-
-// var backgroundImages = [
-//   'url(/static/images/slideshow/slide0.jpg)',
-//   'url(/static/images/slideshow/slide1.jpg)',
-//   'url(/static/images/slideshow/slide2.jpg)',
-//   'url(/static/images/slideshow/slide3.jpg)',
-//   'url(/static/images/slideshow/slide4.jpg)'
-// ],
-//   backgroundImageCounter = 0,
-//   jumbotron = $('.jumbotron');
-
-// window.setInterval(function () {
-//   jumbotron.css('background-image', backgroundImages[backgroundImageCounter]);
-
-//   backgroundImageCounter++;
-//   if (backgroundImageCounter >= backgroundImages.length) {
-//     backgroundImageCounter = 0;
-//   }
-// }, 5000);
