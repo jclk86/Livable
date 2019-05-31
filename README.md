@@ -1,6 +1,6 @@
 # Livable
 
-A one-stop shop for the latest, location-specific census data. Users can quickly obtain the housing, labor, education, and demographic status of a location they'd like to move to. 
+A one-stop shop for the latest, location-specific census data. Users can quickly obtain the housing, labor, education, and demographic status of a location they'd like to move to by entering county and state code. 
 
 [Live Demo](https://jclk86.github.io/Livable/)
 
