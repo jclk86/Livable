@@ -57,9 +57,16 @@ h1 {
   font-size: 75px;
   text-align: center;
   margin-top: 0;
+  margin-bottom: 0;
   color: white;
   padding-top: 100px;
   text-shadow: 0 5px 10px #000;
+}
+
+sub {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-size: 16px;
 }
 
 label {
