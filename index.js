@@ -265,7 +265,7 @@ function getData(county, state) {
 function translateLocationCodes(county, state) {
   fetch(
     encodeURI(
-      `${usCensus_URL}get=NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
+      `${usCensus_URL}get=NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
   )
     .then(response => response.json())
@@ -348,6 +348,32 @@ function renderLoadingAnimation() {
   }, 4000);
 }
 
+function changeBackgroundImg() {
+  let images = [
+    "family1.jpeg",
+    "family2.jpeg",
+    "family3.jpeg",
+    "family4.jpeg",
+    "couple1.jpeg",
+    "couple2.jpeg",
+    "couple3.jpeg",
+    "couple4.jpeg",
+    "painting.jpeg",
+    "woman.jpeg",
+    "living-room.jpeg"
+  ];
+
+  let index = Math.floor(Math.random() * 10);
+  setTimeout(() => {
+    $("#background").css(
+      `background`,
+      `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${
+        images[index]
+      })`
+    );
+  }, 4000);
+}
+
 function handleSubmit() {
   $("form").on("submit", function(e) {
     e.preventDefault();
@@ -358,6 +384,7 @@ function handleSubmit() {
     let state = $("#js-search-state").val();
     translateLocationCodes(county, state);
     getData(county, state);
+    changeBackgroundImg();
     $("#js-search-county, #js-search-state").val("");
     $("body").addClass("spinner-3");
     renderLoadingAnimation();
