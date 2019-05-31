@@ -57,6 +57,7 @@
             role="slider"
             required
           />
+
           <label for="search-state">State Code:</label>
           <input
             type="number"
@@ -79,6 +80,7 @@
             aria-label="submit button for census data"
           />
         </form>
+
         <p class="instructions">
           Don't know your county or state code?
           <a
@@ -90,6 +92,7 @@
         </p>
         <p class="instructions">(Ex: Rockland County, New York is 36087)</p>
       </div>
+
       <div id="search-button" class="hidden">
         <button
           id="search-again"
@@ -106,8 +109,6 @@
         aria-label="all census data"
         class="hidden"
       >
-        <!-- <p id="js-error-message" class="error-message"></p> -->
-
         <div
           id="results"
           role="main"
@@ -137,6 +138,7 @@
             <div class="data-head"><h2>Housing</h2></div>
             <div id="housing-container-1"></div>
           </div>
+
           <div class="row" aria-label="housing statistics" tabindex="4">
             <div id="housing-container-2"></div>
           </div>
@@ -146,6 +148,7 @@
         <i class="fas fa-chevron-down"></i>
       </div>
     </div>
+
     <div
       id="map"
       role="application"
@@ -153,6 +156,7 @@
       class="hidden"
       tabindex="5  "
     ></div>
+
     <div id="container-listing">
       <section
         id="results-locations"
@@ -168,6 +172,7 @@
         ></ul>
       </section>
     </div>
+
     <div class="loading"></div>
     <script
       type="text/javascript"
