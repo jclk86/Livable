@@ -24,7 +24,7 @@ function formatInteger(number) {
 
 function getData(county, state) {
   // Because US CENSUS BUREAU API is going through backend changes,
-  // some data urls may throw 500 internal error during this time. All these fetches must
+  // some data urls may throw 500 internal error during this time. Thus, all these fetches must
   // have individual catches or else no data renders.
   const nativePop = fetch(
     encodeURI(
@@ -168,7 +168,7 @@ function getData(county, state) {
   Promise.all(promiseArray)
     .then(data => {
       $("#population-container").append(`<div class="stat">
-          <div class="stat-title"><p role="heading">Total Population</p></div>
+          <div class="stat-title"><p aria-live="polite" role="heading">Total Population</p></div>
             <div class="stat-value"><p>${
               data[11] ? `${formatInteger(data[11][1][0])}` : "N/A"
             }</p></div>
