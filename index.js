@@ -17,11 +17,15 @@ function formatQueryParams(params) {
   return queryItems.join("&");
 }
 
+// Formats specific data numbers
 function formatInteger(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function getData(county, state) {
+  // Because US CENSUS BUREAU API is going through backend changes,
+  // some data urls may throw 500 internal error during this time. All these fetches must
+  // have individual catches or else no data renders.
   const nativePop = fetch(
     encodeURI(
       `${usCensus_URL}get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
@@ -159,7 +163,8 @@ function getData(county, state) {
     householdInc,
     rentExpense
   ];
-
+  // Renders all data at same time. If a fetch fails and an "undefined" is placed in data array,
+  // ternary operator in nested template strings will return "N/A" if data is missing.
   Promise.all(promiseArray)
     .then(data => {
       $("#population-container").append(`<div class="stat">
@@ -262,6 +267,7 @@ function getData(county, state) {
     });
 }
 
+// Translate locations names to longitude/latitude for google maps API
 function translateLocationCodes(county, state) {
   fetch(
     encodeURI(
