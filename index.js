@@ -330,7 +330,7 @@ function initMap(location) {
 function renderFormAgain() {
   $("#search-button, #results-locations").on("click", function() {
     $(
-      "#search-button, .data-head, #map, #results-locations, #container-data"
+      "#search-button, .data-head, #map, #results-locations,#arrow-icon, #container-data"
     ).addClass("hidden");
     $("#js-form, .instructions").removeClass("hidden");
     $(
