@@ -24,7 +24,7 @@ function formatInteger(number) {
 function getData(county, state) {
   const nativePop = fetch(
     encodeURI(
-      `https://api.census.gov/data/2017/acs/acs1/profile?get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
+      `${usCensus_URL}get=DP02_0087PE,NAME&for=county:${county}&in=state:${state}&key=${usCensusKey}`
     )
   )
     .then(res => res.json())
@@ -165,103 +165,95 @@ function getData(county, state) {
       $("#population-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Total Population</p></div>
             <div class="stat-value"><p>${
-              formatInteger(data[11][1][0])
-                ? `${formatInteger(data[11][1][0])}`
-                : "N/A"
+              data[11] ? `${formatInteger(data[11][1][0])}` : "N/A"
             }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Native Population</p></div>
             <div class="stat-value"><p>%${
-              data[0][1][0] ? `${data[0][1][0]}` : "N/A"
+              data[0] ? `${data[0][1][0]}` : "N/A"
             }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Foreign Population</p></div>
             <div class="stat-value"><p>%${
-              data[1][1][0] ? `${data[1][1][0]}` : "N/A"
+              data[1] ? `${data[1][1][0]}` : "N/A"
             }</p></div>
         </div>`);
 
       $("#education-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Some College</p></div>
             <div class="stat-value"><p>%${
-              data[2][1][0] ? `${data[2][1][0]}` : "N/A"
+              data[2] ? `${data[2][1][0]}` : "N/A"
             }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">In College</p></div>
             <div class="stat-value"><p>%${
-              data[3][1][0] ? `${data[3][1][0]}` : "N/A"
+              data[3] ? `${data[3][1][0]}` : "N/A"
             }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Grad. College</p></div>
             <div class="stat-value"><p>%${
-              data[4][1][0] ? `${data[4][1][0]}` : "N/A"
+              data[4] ? `${data[4][1][0]}` : "N/A"
             }</p></div>
         </div>`);
 
       $("#labor-container").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Unemployed</p></div>
             <div class="stat-value"><p>%${
-              data[5][1][0] ? `${data[5][1][0]}` : "N/A"
+              data[5] ? `${data[5][1][0]}` : "N/A"
             }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Below Poverty</p></div>
             <div class="stat-value"><p>%${
-              data[6][1][0] ? `${data[6][1][0]}` : "N/A"
+              data[6] ? `${data[6][1][0]}` : "N/A"
             }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Household Inc.</p></div>
             <div class="stat-value"><p>$${
-              formatInteger(data[13][1][0])
-                ? `${formatInteger(data[13][1][0])}`
-                : "N/A"
+              data[13] ? `${formatInteger(data[13][1][0])}` : "N/A"
             }</p></div>
         </div>`);
 
       $("#housing-container-1").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Housing Units</p></div>
             <div class="stat-value"><p>${
-              formatInteger(data[12][1][0])
-                ? `${formatInteger(data[12][1][0])}`
-                : "N/A"
+              data[12] ? `${formatInteger(data[12][1][0])}` : "N/A"
             }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Occupied Homes</p></div>
             <div class="stat-value"><p>%${
-              data[7][1][0] ? `${data[7][1][0]}` : "N/A"
+              data[7] ? `${data[7][1][0]}` : "N/A"
             }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Vacant Homes</p></div>
             <div class="stat-value"><p>%${
-              data[8][1][0] ? `${data[8][1][0]}` : "N/A"
+              data[8] ? `${data[8][1][0]}` : "N/A"
             }</p></div>
         </div>`);
 
       $("#housing-container-2").append(`<div class="stat">
           <div class="stat-title"><p role="heading">Home Vacancy</p></div>
             <div class="stat-value"><p>%${
-              data[9][1][0] ? `${data[9][1][0]}` : "N/A"
+              data[9] ? `${data[9][1][0]}` : "N/A"
             }</p></div>
         </div>
         <div class="stat">
           <div class="stat-title"><p role="heading">Rental Vacancy</p></div>
             <div class="stat-value"><p>%${
-              data[10][1][0] ? `${data[10][1][0]}` : "N/A"
+              data[10] ? `${data[10][1][0]}` : "N/A"
             }</p></div>
         </div>
          <div class="stat">
           <div class="stat-title"><p role="heading">Rent Expense</p></div>
             <div class="stat-value"><p>$${
-              formatInteger(data[14][1][0])
-                ? `${formatInteger(data[14][1][0])}`
-                : "N/A"
+              data[14] ? `${formatInteger(data[14][1][0])}` : "N/A"
             }</p></div>
         </div>`);
     })
@@ -273,7 +265,7 @@ function getData(county, state) {
 function translateLocationCodes(county, state) {
   fetch(
     encodeURI(
-      `https://api.census.gov/data/2017/acs/acs1/profile?get=NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
+      `${usCensus_URL}get=NAME&for=county:${county}&in=state:${state}&key=cd61f085312fedfc60923ae2605d954d1a7e3363`
     )
   )
     .then(response => response.json())
