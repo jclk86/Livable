@@ -6,7 +6,7 @@ A one-stop shop for the latest, location-specific census data. Users can quickly
 
 # Motivation
 
-This app was created to make location-specific research simple for people looking to move and property investors. 
+This app was created to make location-specific research simple for people looking to move and for property investors. 
 
 # Screenshots
 
