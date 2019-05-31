@@ -365,12 +365,16 @@ function changeBackgroundImg() {
 
   let index = Math.floor(Math.random() * 10);
   setTimeout(() => {
-    $("#background").css(
-      `background`,
-      `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${
+    $("#background").css({
+      background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${
         images[index]
-      })`
-    );
+      })`,
+      "background-size": "cover",
+      padding: "0",
+      margin: "0",
+      border: "0",
+      position: "relative"
+    });
   }, 4000);
 }
 
