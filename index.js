@@ -10,6 +10,8 @@ const geoCoding_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const googlePlacesSearch_URL =
   "https://maps.googleapis.com/maps/api/place/findplacefromtext/json";
 
+const inptElm = $("input[type='number']");
+
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(
     key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
@@ -24,7 +26,7 @@ function formatInteger(number) {
 
 function getData(county, state) {
   // Because US CENSUS BUREAU API is going through backend changes,
-  // some data urls may throw 500 internal error during this time. Thus, all these fetches must
+  // some data urls may throw 500 internal error during this time (or lag in fetch). Thus, all these fetches must
   // have individual catches or else no data renders.
   const nativePop = fetch(
     encodeURI(
@@ -168,7 +170,7 @@ function getData(county, state) {
   Promise.all(promiseArray)
     .then(data => {
       $("#population-container").append(`<div class="stat">
-          <div class="stat-title"><p aria-live="polite" role="heading">Total Population</p></div>
+          <div class="stat-title"><p role="heading">Total Population</p></div>
             <div class="stat-value"><p>${
               data[11] ? `${formatInteger(data[11][1][0])}` : "N/A"
             }</p></div>
@@ -333,8 +335,52 @@ function initMap(location) {
   });
 }
 
+function allowIntegerInputOnly(elm) {
+  elm
+    .on("keydown", function(event) {
+      var e = event || window.event,
+        key = e.keyCode || e.which,
+        ruleSetArr_1 = [8, 9, 46], // backspace,tab,delete
+        ruleSetArr_2 = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57], // for keyboard num keys
+        ruleSetArr_3 = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105], // for side keyboard num keys
+        ruleSetArr_4 = [17, 67, 86], // Disallow use of ctrl + v
+        ruleSetArr = ruleSetArr_1.concat(
+          ruleSetArr_2,
+          ruleSetArr_3,
+          ruleSetArr_4
+        ); // merge arrays of keys
+
+      if (ruleSetArr.indexOf() !== "undefined") {
+        // checks if browser supports indexOf() : IE8 and earlier
+        var retRes = ruleSetArr.indexOf(key);
+      } else {
+        var retRes = $.inArray(key, ruleSetArr);
+      }
+      if (retRes == -1) {
+        // if returned key not found in array, return false
+        return false;
+      } else if (key == 67 || key == 86) {
+        // account for paste events
+        event.stopPropagation();
+      }
+    })
+    .on("paste", function(event) {
+      var $thisObj = $(this),
+        origVal = $thisObj.val(), // orig value
+        newVal = event.originalEvent.clipboardData.getData("Text"); // paste clipboard value
+      if (newVal.replace(/\D+/g, "") == "") {
+        // if paste value is not a number, insert orig value and return false
+        $thisObj.val(origVal);
+        return false;
+      } else {
+        $thisObj.val(newVal.replace(/\D+/g, ""));
+        return false;
+      }
+    });
+}
+
 function renderFormAgain() {
-  $("#search-button, #results-locations").on("click", function() {
+  $("#search-button").on("click", function() {
     $(
       "#search-button, .data-head, #map, #results-locations,#arrow-icon, #container-data"
     ).addClass("hidden");
@@ -356,17 +402,17 @@ function renderLoadingAnimation() {
 
 function changeBackgroundImg() {
   let images = [
-    "family1.jpeg",
-    "family2.jpeg",
-    "family3.jpeg",
-    "family4.jpeg",
-    "couple1.jpeg",
-    "couple2.jpeg",
-    "couple3.jpeg",
-    "couple4.jpeg",
-    "painting.jpeg",
-    "woman.jpeg",
-    "living-room.jpeg"
+    "images/family1.jpeg",
+    "images/family2.jpeg",
+    "images/family3.jpeg",
+    "images/family4.jpeg",
+    "images/couple1.jpeg",
+    "images/couple2.jpeg",
+    "images/couple3.jpeg",
+    "images/couple4.jpeg",
+    "images/painting.jpeg",
+    "images/woman.jpeg",
+    "images/living-room.jpeg"
   ];
 
   let index = Math.floor(Math.random() * 10);
@@ -405,4 +451,5 @@ function handleSubmit() {
 $(function() {
   handleSubmit();
   renderFormAgain();
+  allowIntegerInputOnly(inptElm);
 });

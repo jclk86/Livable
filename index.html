@@ -41,7 +41,7 @@
         <h1 role="banner">Livable</h1>
         <sub>Location data made simple.</sub>
         <form id="js-form" role="form">
-          <label for="search-county">County Code:</label>
+          <label for="search-county">County Code: (Numbers only)</label>
           <input
             type="number"
             name="search-county"
@@ -54,11 +54,10 @@
             pattern=".{3,3}"
             title="Three digits only"
             aria-label="enter county code"
-            role="slider"
             required
           />
 
-          <label for="search-state">State Code:</label>
+          <label for="search-state">State Code: (Numbers only)</label>
           <input
             type="number"
             name="search-state"
@@ -71,7 +70,6 @@
             pattern=".{2,2}"
             title="Two digits only"
             aria-label="enter state code"
-            role="slider"
             required
           />
           <input

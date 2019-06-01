@@ -1,20 +1,10 @@
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+  outline: none !important;
 }
 
-/* html,
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-div {
-  padding: 20px;
-  border: 0;
-  margin: 0;
-} */
 .top {
   padding: 0;
   height: 170px;
@@ -36,7 +26,7 @@ body {
 
 #background {
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("family1.jpeg");
+    url("images/family1.jpeg");
   background-size: cover;
   height: calc(100vh + 1500px);
   padding: 0;
@@ -130,6 +120,14 @@ a:hover {
   border-radius: 5px;
 }
 
+#population-container,
+#education-container,
+#labor-container,
+#housing-container-1,
+#housing-container-2 {
+  outline: none;
+}
+
 #results {
   width: 100%;
   text-shadow: 0 6px 14px #000;
@@ -144,6 +142,10 @@ a:hover {
 
 .stat-title {
   font-size: 16px;
+}
+
+.stat-title:focus {
+  outline: none;
 }
 
 .stat-value {
@@ -173,6 +175,8 @@ a:hover {
 
 #search-again {
   box-shadow: 2px 2px 2px rgb(73, 70, 70);
+  border-radius: 3px;
+  font-size: 16px;
 }
 
 button:hover {
