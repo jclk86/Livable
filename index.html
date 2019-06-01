@@ -41,7 +41,7 @@
         <h1 role="banner">Livable</h1>
         <sub>Location data made simple.</sub>
         <form id="js-form" role="form">
-          <label for="search-county">County Code: (Numbers only)</label>
+          <label for="search-county">County Code: (Digits only)</label>
           <input
             type="number"
             name="search-county"
@@ -57,7 +57,7 @@
             required
           />
 
-          <label for="search-state">State Code: (Numbers only)</label>
+          <label for="search-state">State Code: (Digits only)</label>
           <input
             type="number"
             name="search-state"
@@ -113,33 +113,33 @@
           aria-label="all census data"
           class="hidden"
         >
-          <div class="row" aria-label="population statistics" tabindex="1">
-            <div class="data-head"><h2>Population</h2></div>
+          <section class="row" aria-label="population statistics" tabindex="1">
+            <header class="data-head"><h2>Population</h2></header>
             <div id="population-container"></div>
-          </div>
+          </section>
 
-          <div class="row" aria-label="education statistics" tabindex="3">
-            <div class="data-head"><h2>Education</h2></div>
+          <section class="row" aria-label="education statistics" tabindex="3">
+            <header class="data-head"><h2>Education</h2></header>
             <div id="education-container"></div>
-          </div>
+          </section>
 
-          <div
+          <section
             class="row"
             aria-label="economic-related statistics"
             tabindex="2"
           >
-            <div class="data-head"><h2>Labor</h2></div>
+            <header class="data-head"><h2>Labor</h2></header>
             <div id="labor-container"></div>
-          </div>
+          </section>
 
-          <div class="row" aria-label="housing statistics" tabindex="4">
-            <div class="data-head"><h2>Housing</h2></div>
+          <section class="row" aria-label="housing statistics" tabindex="4">
+            <header class="data-head"><h2>Housing</h2></header>
             <div id="housing-container-1"></div>
-          </div>
+          </section>
 
-          <div class="row" aria-label="housing statistics" tabindex="4">
+          <section class="row" aria-label="housing statistics" tabindex="4">
             <div id="housing-container-2"></div>
-          </div>
+          </section>
         </div>
       </div>
       <div id="arrow-icon" class="hidden">
