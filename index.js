@@ -289,16 +289,14 @@ function translateLocationCodes(county, state) {
 }
 
 function getGeoCode(location) {
-  const params = {
-    key: googleApiKey,
-    address: `${location}`
-  };
-
-  const queryString = formatQueryParams(params);
-  const url = encodeURI(geoCoding_URL + "?" + queryString);
+  const url = encodeURI(
+    `https://maps.googleapis.com/maps/api/geocode/json?key=${googleApiKey}&address=${location}`
+  );
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      return response.json();
+    })
     .then(responseJson => {
       let location = responseJson.results[0].geometry.location;
       initMap(location);
@@ -418,9 +416,7 @@ function changeBackgroundImg() {
   let index = Math.floor(Math.random() * 10);
   setTimeout(() => {
     $("#background").css({
-      background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${
-        images[index]
-      })`,
+      background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${images[index]})`,
       "background-size": "cover",
       padding: "0",
       margin: "0",
